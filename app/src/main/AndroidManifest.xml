@@ -12,7 +12,6 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.JetpackComposeExample"
         android:usesCleartextTraffic="true">
-        <activity android:name=".ImageTest"></activity>
         <activity android:name=".ComponentActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

@@ -1,65 +1,42 @@
 package com.osg.jetpackcomposeexample
 
+import android.graphics.drawable.Animatable
+import android.graphics.drawable.Drawable
+import android.os.Build.VERSION.SDK_INT
 import android.os.Bundle
+import androidx.annotation.Px
 import androidx.appcompat.app.AppCompatActivity
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.Text
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.preferredHeight
-import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material.MaterialTheme
-import androidx.compose.material.Surface
-import androidx.compose.runtime.Composable
+import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.clip
-import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.WithConstraints
+import androidx.compose.ui.geometry.Size.Companion.Zero
+import androidx.compose.ui.graphics.ImageAsset
+import androidx.compose.ui.graphics.asImageAsset
+import androidx.compose.ui.platform.ContextAmbient
 import androidx.compose.ui.platform.setContent
-import androidx.compose.ui.res.imageResource
-import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.Constraints.Companion.Infinity
+import androidx.core.graphics.drawable.toBitmap
 import androidx.ui.tooling.preview.Preview
-import com.osg.jetpackcomposeexample.ui.JetpackComposeExampleTheme
+import coil.ImageLoader
+import coil.decode.GifDecoder
+import coil.decode.ImageDecoderDecoder
+import coil.request.CachePolicy
+import coil.size.Scale
+import coil.target.Target
+import kotlinx.coroutines.*
 
 class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
-            JetpackComposeExampleTheme {
-                // A surface container using the 'background' color from the theme
-                Surface(color = MaterialTheme.colors.background) {
-                    MainComponent()
-                }
-            }
         }
     }
 }
 
+@Preview
 @Composable
-fun MainComponent() {
-    val image= imageResource(id = R.drawable.header)
-    MaterialTheme() {
-        Column( modifier = Modifier.padding(12.dp)) {
-            val imageModifier=Modifier
-                    .preferredHeight(180.dp)
-                    .fillMaxWidth()
-                    .clip(shape= RoundedCornerShape(4.dp))
-            Image(image, imageModifier, contentScale = ContentScale.Crop)
-            Text(text = "Hello!")
-//            SecondComponent()
-        }
-    }
-}
-
-//@Composable
-//fun SecondComponent(){
-//    Text("good bye")
-//}
-
-@Preview(showBackground = true)
-@Composable
-fun DefaultPreview() {
-    JetpackComposeExampleTheme {
-        MainComponent()
-    }
+fun aa(){
+    Text(text = "aa")
 }
