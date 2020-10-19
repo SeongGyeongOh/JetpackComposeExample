@@ -3,157 +3,123 @@ package com.osg.jetpackcomposeexample
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
-import androidx.compose.foundation.Image
 import androidx.compose.foundation.Text
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.border
+import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumnFor
-import androidx.compose.material.TopAppBar
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.*
+import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.DensityAmbient
 import androidx.compose.ui.platform.setContent
-import androidx.compose.ui.res.imageResource
-import androidx.ui.tooling.preview.Preview
+import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.unit.Constraints
+import androidx.compose.ui.unit.dp
+import kotlin.math.max
+import kotlin.math.min
+import com.osg.jetpackcomposeexample.ui.typography
 import dev.chrisbanes.accompanist.coil.CoilImage
-import retrofit2.Call
-import retrofit2.Response
+import kotlinx.coroutines.NonCancellable.children
+import java.lang.Exception
+import androidx.compose.ui.util.lerp
+import androidx.compose.ui.unit.lerp
+
+private val BottomBarHeight = 56.dp
+private val TitleHeight = 128.dp
+private val GradientScroll = 180.dp
+private val ImageOverlap = 115.dp
+private val MinTitleOffset = 56.dp
+private val MinImageOffset = 12.dp
+private val MaxTitleOffset = ImageOverlap + MinTitleOffset + GradientScroll
+private val ExpandedImageSize = 300.dp
+private val CollapsedImageSize = 150.dp
+private val HzPadding = Modifier.padding(horizontal = 24.dp)
 
 class ComponentActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
-//            secondComponent()
-//            list()
-            testComponent()
-
-        }
-    }
-}
-
-@Composable
-fun testComponent(){
-    Column() {
-//        TopAppBar(title = {Text(text="coordinate layout을 사용해 보자\n여기는 coordinate layout이 될 예정임")})
-        Text(text = "hello jetpack")
-
-        val retrofit=RetrofitHelper().getRetrofit()
-        val service=retrofit.create(RetrofitService::class.java)
-        var call=service.getData()
-        var items= ArrayList<ClassElement>()
-
-
-        call.enqueue(object : retrofit2.Callback<ArrayList<ClassElement>> {
-            override fun onResponse(call: Call<ArrayList<ClassElement>>,response: Response<ArrayList<ClassElement>>) {
-                if(response.isSuccessful){
-                    var lists = response.body()
-                    items= lists!!
-                }
-            }
-
-            override fun onFailure(call: Call<ArrayList<ClassElement>>, t: Throwable) {
-                Log.e("확인", "" + t.message)
-            }
-
-        })
-
-        LazyColumnFor(items = items) {item->
-            Column() {
-                Text(text = "${item.category}")
-                CoilImage(data = "${item.bannerImages?.get(0)?.thumbURL}")
-                Log.e("img", "${item.category}")
-            }
-        }
-    }
-}
-
-@Composable
-fun secondComponent(){
-    Column {
-
-        TopAppBar(title = {Text(text="coordinate layout을 사용해 보자\n여기는 coordinate layout이 될 예정임")})
-
-//        val retrofit=RetrofitHelper().getRetrofit()
-//        val service=retrofit.create(RetrofitService::class.java)
-//        var call=service.getData()
-//        var items= ArrayList<ClassElement>()
-//
-//
-//        call.enqueue(object : retrofit2.Callback<ArrayList<ClassElement>> {
-//            override fun onResponse(call: Call<ArrayList<ClassElement>>,response: Response<ArrayList<ClassElement>>) {
-//                if(response.isSuccessful){
-//                    var lists = response.body()
-//                    items= lists!!
-//                }
-//            }
-//
-//            override fun onFailure(call: Call<ArrayList<ClassElement>>, t: Throwable) {
-//                Log.e("확인", "" + t.message)
-//            }
-//
-//        })
-
-//        LazyColumnFor(items = items) {item->
-//            Column() {
-//                Text(text = "${item.category}")
-//                CoilImage(data = "${item.bannerImages?.get(0)?.thumbURL}")
-//                Log.e("img", "${item.category}")
-//            }
-//        }
-        Text(text = "Hello?")
-//        Log.e("img", "${item.category}")
-    }
-
-}
-
-@Composable
-fun list(){
-
-    val datas=ArrayList<Test>()
-
-    datas.add(Test("바이올린 연습책", "피아노", 10000, "https://madi-1302397712.cos.ap-seoul.myqcloud.com/images/5f027fbcc9986921824aae6f_1602646108078.jpg"))
-    datas.add(Test("ㅁㅁ 연습책", "ㅁㅁ", 10000, "https://madi-1302397712.cos.ap-seoul.myqcloud.com/images/5f027fbcc9986921824aae6f_1602646108078.jpg"))
-    datas.add(Test("ㄴㄴ 연습책", "ㄴㄴ", 10000, "https://madi-1302397712.cos.ap-seoul.myqcloud.com/images/5f027fbcc9986921824aae6f_1602646108078.jpg"))
-    datas.add(Test("ㅇㅇ 연습책", "ㅇㅇ", 10000, "https://madi-1302397712.cos.ap-seoul.myqcloud.com/images/5f027fbcc9986921824aae6f_1602646108078.jpg"))
-    datas.add(Test("ㄹㄹ 연습책", "ㄹㄹ", 10000, "https://madi-1302397712.cos.ap-seoul.myqcloud.com/images/5f027fbcc9986921824aae6f_1602646108078.jpg"))
-    datas.add(Test("ㅎㅎ 연습책", "ㅎㅎ", 10000, "https://madi-1302397712.cos.ap-seoul.myqcloud.com/images/5f027fbcc9986921824aae6f_1602646108078.jpg"))
-    LazyColumnFor(datas) {item->
-        Row() {
             Column {
-                Text("${item.title}")
-                Text("${item.category}")
-                Text("${item.price} 원")
-//                imageComponent()
-                CoilImage("https://madi-1302397712.cos.ap-seoul.myqcloud.com/images/5f027fbcc9986921824aae6f_1602646108078.jpg")
+                coordinateLayout()
+                listComponent()
             }
         }
     }
 }
 
 @Composable
-fun imageComponent(){
-    val image= imageResource(id = R.drawable.header)
-    Image(image)
-}
-
-
-@Preview
-@Composable
-fun defaultPreview(){
-    secondComponent()
-    CoilImage(data = "https://madi-1302397712.cos.ap-seoul.myqcloud.com/images/5f027fbcc9986921824aae6f_1602646108078.jpg")
-//    list()
-}
-
-class Test {
-    constructor(title: String?, category: String?, price: Long?, thumbURL: String?) {
-        this.title = title
-        this.category = category
-        this.price = price
-        this.thumbURL = thumbURL
+fun coordinateLayout(){
+    Box(modifier = Modifier
+            .height(200.dp)
+            .fillMaxWidth()
+    ){
+        CoilImage(data = "https://madi-1302397712.cos.ap-seoul.myqcloud.com/images/5f027fbcc9986921824aae6f_1602646108078.jpg",
+                    contentScale = ContentScale.FillWidth
+        )
     }
-
-    var title:String?=null
-    var category:String?=null
-    var price:Long?=null
-    var thumbURL:String?=null
 }
+
+
+
+@Composable
+fun listComponent(){
+    val retrofit=RetrofitHelper().getRetrofit()
+    val service=retrofit.create(RetrofitService::class.java)
+    var call=service.getData()
+    var items= ArrayList<ClassElement>()
+
+    Thread{
+        run {
+            try{
+                val response=call.execute()
+                items=response.body()!!
+                Log.i("point", "${items}")
+            }catch (e:Exception){
+                Log.e("point-1", "retrofit failed")
+            }
+        }
+    }.start()
+
+    Thread.sleep(2000)
+
+    Log.i("point2", "before lazy")
+        LazyColumnFor(items = items) {item->
+            Row(Modifier.padding(8.dp)){
+
+                CoilImage(
+                        data = "https://madi-1302397712.cos.ap-seoul.myqcloud.com/images/5f027fbcc9986921824aae6f_1602646108078.jpg",
+                        modifier = Modifier.height(100.dp)
+                                .width(100.dp)
+                                .clip(shape = RoundedCornerShape(4.dp)),
+                        contentScale = ContentScale.Crop
+                )
+                Column(Modifier.padding(horizontal = 8.dp)
+                                .fillMaxSize()
+                                .height(100.dp)
+                                .border(1.dp, color=Color.DarkGray, shape= RoundedCornerShape(4.dp)),
+                verticalArrangement = Arrangement.SpaceBetween) {
+
+                    Text(text = "${item.title}",
+                            style = typography.body1,
+                            fontWeight = FontWeight.Bold,
+                            modifier = Modifier.padding(4.dp)
+                    )
+                    Spacer(modifier = Modifier.preferredHeight(2.dp))
+                    Text(text = "${item.category}",
+                            modifier = Modifier.align(Alignment.End)
+                                    .padding(4.dp),
+                            style = typography.caption)
+                    Spacer(modifier = Modifier.preferredHeight(1.dp))
+                    Text(text = "${item.price}",
+                            modifier = Modifier.padding(4.dp))
+                    Spacer(modifier = Modifier.preferredHeight(1.dp))
+                }
+
+            }
+        }
+}
+

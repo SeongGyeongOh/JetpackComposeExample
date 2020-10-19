@@ -48,6 +48,7 @@ data class Section (
     val video: Video? = null
 )
 
+
 data class Video (
     val url: String? = null,
     val verifyContent: String? = null
