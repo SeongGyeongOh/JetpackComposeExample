@@ -7,36 +7,27 @@ import androidx.compose.foundation.Text
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumnFor
+import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material.MaterialTheme
+import androidx.compose.material.ProvideEmphasis
+import androidx.compose.material.Surface
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.*
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
-import androidx.compose.ui.platform.DensityAmbient
 import androidx.compose.ui.platform.setContent
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.unit.Constraints
 import androidx.compose.ui.unit.dp
-import kotlin.math.max
-import kotlin.math.min
 import com.osg.jetpackcomposeexample.ui.typography
 import dev.chrisbanes.accompanist.coil.CoilImage
-import kotlinx.coroutines.NonCancellable.children
 import java.lang.Exception
-import androidx.compose.ui.util.lerp
-import androidx.compose.ui.unit.lerp
-
-private val BottomBarHeight = 56.dp
-private val TitleHeight = 128.dp
-private val GradientScroll = 180.dp
-private val ImageOverlap = 115.dp
-private val MinTitleOffset = 56.dp
-private val MinImageOffset = 12.dp
-private val MaxTitleOffset = ImageOverlap + MinTitleOffset + GradientScroll
-private val ExpandedImageSize = 300.dp
-private val CollapsedImageSize = 150.dp
-private val HzPadding = Modifier.padding(horizontal = 24.dp)
+import androidx.compose.ui.Layout
+import androidx.compose.ui.layout
+import androidx.compose.ui.layout.IntrinsicMeasureBlock
+import androidx.compose.ui.unit.Constraints
+import kotlinx.coroutines.NonCancellable.children
 
 class ComponentActivity : AppCompatActivity() {
 
@@ -44,22 +35,8 @@ class ComponentActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContent {
             Column {
-                coordinateLayout()
-                listComponent()
             }
         }
-    }
-}
-
-@Composable
-fun coordinateLayout(){
-    Box(modifier = Modifier
-            .height(200.dp)
-            .fillMaxWidth()
-    ){
-        CoilImage(data = "https://madi-1302397712.cos.ap-seoul.myqcloud.com/images/5f027fbcc9986921824aae6f_1602646108078.jpg",
-                    contentScale = ContentScale.FillWidth
-        )
     }
 }
 

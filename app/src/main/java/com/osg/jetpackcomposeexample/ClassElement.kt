@@ -32,7 +32,7 @@ data class BannerImage (
     val type: String? = null,
     val percent: Long? = null,
     val originFileObj: OriginFileObj? = null,
-    val thumbURL: String? = null
+    val thumbUrl: String? = null
 )
 
 data class OriginFileObj (
